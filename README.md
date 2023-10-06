@@ -1,2 +1,5 @@
 # CSE123
-CSE123 Course Work
+
+## Creative Projects
+
+1. Abstract Strategy Games: [Connect Four](./creative_project_0/)
