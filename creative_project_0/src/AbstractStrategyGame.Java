@@ -8,7 +8,7 @@
  * An interface defining the expected behavior for an abstract strategy game, which is
  * characterized by having perfect information and lacking randomness.
  */
-Interface AbstractStrategyGame {
+interface AbstractStrategyGame {
 
     /**
      * Provides instructions on how to play the game.

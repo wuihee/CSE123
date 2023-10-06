@@ -1,0 +1,21 @@
+Welcome to Connect Four!
+
+Connect Four is a two-player connection game in which the players first choose a
+color and then take turns dropping colored discs from the top into a seven-column,
+six-row vertically suspended grid. The pieces fall straight down, occupying the
+next available space within the column. The object of the game is to connect four
+of one's own discs of the same color next to each other vertically, horizontally,
+or diagonally before your opponent.
+
+Here is how the game works:
+- Player 1 selects a column to drop their disc into the grid.
+- Player 2 then selects a column to drop their disc.
+- Players alternate turns until one player gets four of their discs in a line or
+  the grid is filled.
+- If the grid is filled and no player has four discs in a line, the game is a draw.
+
+Instructions for making a move:
+1. The current state of the grid will be displayed. Each column will be numbered.
+2. To make a move, enter the number of the column where you want to drop your disc.
+3. Ensure to check the state of the grid before making a move to see the available
+   columns.
