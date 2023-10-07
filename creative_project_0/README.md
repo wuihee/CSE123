@@ -1,5 +1,9 @@
 # Connect Four
 
+## TODO
+
+- Need to adjust player 0 and player 1 to player 1 and player 2.
+
 ## Basic Requirements
 
 - The game board is a 7-wide by 6-tall grid.
