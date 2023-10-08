@@ -6,6 +6,8 @@ import java.util.*;
 // C0: Abstract Strategy Game
 // TA: Heon Jwa
 
+// ConnectFour implements AbstractStrategyGame and is an implementation of the classic
+// Connect Four in the console represented with Strings.
 public class ConnectFour implements AbstractStrategyGame {
 
     // Fields
@@ -17,6 +19,9 @@ public class ConnectFour implements AbstractStrategyGame {
     private int currentPlayer;
     private int winner;
 
+    /**
+     * Initialize ConnectFour objects.
+     */
     ConnectFour() {
         board = new String[ROWS][COLUMNS];
         rowPositions = new int[COLUMNS];
@@ -28,11 +33,7 @@ public class ConnectFour implements AbstractStrategyGame {
     }
 
     public static void main(String[] args) {
-        ConnectFour game = new ConnectFour();
-        // System.out.println(game.instructions());
-        // System.out.println(game.toString());
-        String[] row = {"X", "X", "X", "X", "o"};
-        System.out.println(game.isWinningArray(row));
+        System.out.println("Please run ConnectFour through Client.java");
     }
 
     /**
@@ -57,16 +58,15 @@ public class ConnectFour implements AbstractStrategyGame {
                                                                                           
             Welcome to Connect Four!
 
-            Connect Four is a two-player connection game in which the players first choose a
-            color and then take turns dropping colored discs from the top into a seven-column,
-            six-row vertically suspended grid. The pieces fall straight down, occupying the
-            next available space within the column. The object of the game is to connect four
-            of one's own discs of the same color next to each other vertically, horizontally,
-            or diagonally before your opponent.
+            Connect Four is a two-player connection game in which the players take turns dropping
+            their tokens into a six-row vertically suspended grid. The pieces fall straight down,
+            occupying the next available space within the column. The object of the game is to
+            connect four of one's own tokens next to each other vertically, horizontally, or
+            diagonally before your opponent.
             
             Here is how the game works:
-            - Player 1 selects a column to drop their disc into the grid.
-            - Player 2 then selects a column to drop their disc.
+            - Player 1 selects a column to drop their token into the grid.
+            - Player 2 then selects a column to drop their token.
             - Players alternate turns until one player gets four of their discs in a line or
               the grid is filled.
             - If the grid is filled and no player has four discs in a line, the game is a draw.
@@ -118,7 +118,7 @@ public class ConnectFour implements AbstractStrategyGame {
      * @return true if the game is over, false otherwise.
      */
     public boolean isGameOver() {
-        if (winner == -1) {
+        if (winner == -1 && !isBoardFilled()) {
             return false;
         }
         return true;
@@ -127,9 +127,13 @@ public class ConnectFour implements AbstractStrategyGame {
     /**
      * Identifies the winner of the game.
      * 
-     * @return The index of the winner, or -1 if the game is still in progress.
+     * @return The index of the winner, which is -1 if the game is still in progress.
+     * However, if the board is filled and there's a tie, return 0.
      */
     public int getWinner() {
+        if (isBoardFilled()) {
+            return 0;
+        }
         return winner;
     }
 
@@ -156,6 +160,22 @@ public class ConnectFour implements AbstractStrategyGame {
         addToken(col);
         checkForWinner();
         changePlayers();
+    }
+
+    /**
+     * Check if the board is completely filled.
+     * 
+     * @return true if the board is filled and false otherwise.
+     */
+    private boolean isBoardFilled() {
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLUMNS; j++) {
+                if (board[i][j] == null) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
@@ -189,28 +209,90 @@ public class ConnectFour implements AbstractStrategyGame {
     private void checkForWinner() {
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLUMNS; j++) {
-                // Check horizontals.
-                if (checkHorizontal(i, j) || checkVertical(i, j) || checkDiagonal(i, j) || checkAntiDiagonal(i, j)) {
+                if (checkHorizontal(i, j) ||
+                    checkVertical(i, j) ||
+                    checkDiagonal(i, j) ||
+                    checkAntiDiagonal(i, j)) {
                     winner = currentPlayer;
                 }
             }
         }
     }
 
-    private boolean checkHorizontal(int i, int j) {
-
+    /**
+     * Check for a horizontal win starting at index (r, c).
+     * 
+     * @param r The row to start searching.
+     * @param c The column to start searching.
+     * @return true if winning sequence found and false otherwise.
+     */
+    private boolean checkHorizontal(int r, int c) {
+        if (c <= COLUMNS - WINNING_LENGTH) {
+            for (int i = 1; i < WINNING_LENGTH; i++) {
+                if (board[r][c + i] == null || board[r][c + i - 1] != board[r][c + i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
-    private boolean checkVertical(int i, int j) {
-
+    /**
+     * Check for a vertical win starting at index (r, c).
+     * 
+     * @param r The row to start searching.
+     * @param c The column to start searching.
+     * @return true if winning sequence found and false otherwise.
+     */
+    private boolean checkVertical(int r, int c) {
+        if (r <= ROWS - WINNING_LENGTH) {
+            for (int i = 1; i < WINNING_LENGTH; i++) {
+                if (board[r + i][c] == null || board[r + i - 1][c] != board[r + i][c]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
-    private boolean checkDiagonal(int i, int j) {
-
+    /**
+     * Check for a diagonal win starting at index (r, c).
+     * 
+     * @param r The row to start searching.
+     * @param c The column to start searching.
+     * @return true if winning sequence found and false otherwise.
+     */
+    private boolean checkDiagonal(int r, int c) {
+        if (r >= WINNING_LENGTH - 1 && c <= COLUMNS - WINNING_LENGTH) {
+            for (int i = 1; i < WINNING_LENGTH; i++) {
+                if (board[r - i][c + i] == null || board[r - i][c + i] != board[r - i + 1][c + i - 1]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
-    private boolean checkAntiDiagonal(int i, int j) {
-
+    /**
+     * Check for an anti-diagonal win starting at index (r, c).
+     * 
+     * @param r The row to start searching.
+     * @param c The column to start searching.
+     * @return true if winning sequence found and false otherwise.
+     */
+    private boolean checkAntiDiagonal(int r, int c) {
+        if (r >= WINNING_LENGTH - 1 && c >= WINNING_LENGTH - 1) {
+            for (int i = 1; i < WINNING_LENGTH; i++) {
+                if (board[r - i][c - i] == null || board[r - i][c - i] != board[r - i + 1][c - i + 1]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     /**

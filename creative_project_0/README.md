@@ -2,7 +2,7 @@
 
 ## TODO
 
-- Game over when entire board is filled and no moves left.
+- Refactor based on OOP.
 
 ## Basic Requirements
 
