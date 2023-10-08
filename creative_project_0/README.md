@@ -2,7 +2,7 @@
 
 ## TODO
 
-- Need to adjust player 0 and player 1 to player 1 and player 2.
+- Game over when entire board is filled and no moves left.
 
 ## Basic Requirements
 

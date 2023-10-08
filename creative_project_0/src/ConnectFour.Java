@@ -1,10 +1,17 @@
 import java.util.*;
 
+// Wuihee 
+// 10/06/2023
+// CSE 123 
+// C0: Abstract Strategy Game
+// TA: Heon Jwa
+
 public class ConnectFour implements AbstractStrategyGame {
 
     // Fields
     private int ROWS = 6;
     private int COLUMNS = 7;
+    private int WINNING_LENGTH = 4;
     private String[][] board;
     private int[] rowPositions;
     private int currentPlayer;
@@ -25,7 +32,7 @@ public class ConnectFour implements AbstractStrategyGame {
         // System.out.println(game.instructions());
         // System.out.println(game.toString());
         String[] row = {"X", "X", "X", "X", "o"};
-        System.out.println(game.isFourInARow(row));
+        System.out.println(game.isWinningArray(row));
     }
 
     /**
@@ -84,9 +91,24 @@ public class ConnectFour implements AbstractStrategyGame {
      */
     public String toString() {
         String gameState = "";
-        for (String[] row : board) {
-            gameState += Arrays.toString(row) + "\n";
+
+        for (int i = 0; i < ROWS; i++) {
+            String[] row = board[i];
+            String rowString = Integer.toString(ROWS - i) + " |";
+
+            for (String token : row) {
+                if (token != null) {
+                    rowString += token + " ";
+                } else {
+                    rowString += "  ";
+                }
+            }
+            gameState += rowString + "\n";
         }
+
+        gameState += "   -------------\n";
+        gameState += "   1 2 3 4 5 6 7\n";
+
         return gameState;
     }
 
@@ -127,27 +149,30 @@ public class ConnectFour implements AbstractStrategyGame {
      * Executes a move based on the player's input.
      * 
      * @param input A Scanner object to read the player's move.
-     * @throws IllegalArgumentException If the move is illegal or invalid.
      */
     public void makeMove(Scanner input) {
-        System.out.println("Choose which column to place your token: ");
-        int col = input.nextInt();
+        System.out.print("Choose which column to place your token: ");
+        int col = input.nextInt() - 1;
         addToken(col);
         checkForWinner();
-        togglePlayers();
+        changePlayers();
     }
 
     /**
      * Adds player's token to the specified column.
      * 
      * @param col The column which the token will be placed in.
-     * @throws IllegalArgumentException If the column is filled to the top.
+     * @throws IllegalArgumentException If the column is filled to the top or if
+     * row is out of bounds.
      */
     private void addToken(int col) {
-        int row = rowPositions[col];
+        if (col < 0 || col >= COLUMNS) {
+            throw new IllegalArgumentException("Row is out of bounds!\n");
+        }
 
+        int row = rowPositions[col];
         if (row == -1) {
-            throw new IllegalArgumentException("This column is full!");
+            throw new IllegalArgumentException("This column is full!\n");
         }
 
         if (currentPlayer == 1) {
@@ -158,78 +183,40 @@ public class ConnectFour implements AbstractStrategyGame {
         rowPositions[col]--;
     }
 
+    /**
+     * Checks the board for any winning formations after a token is added.
+     */
     private void checkForWinner() {
-        if (isWinningRow() | isWinningColumn() | isWinningDiagonal()) {
-            winner = currentPlayer;
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLUMNS; j++) {
+                // Check horizontals.
+                if (checkHorizontal(i, j) || checkVertical(i, j) || checkDiagonal(i, j) || checkAntiDiagonal(i, j)) {
+                    winner = currentPlayer;
+                }
+            }
         }
     }
 
-    /**
-     * Check if there are any winning row formations.
-     * 
-     * @return true if there are and false otherwise.
-     */
-    private boolean isWinningRow() {
-        for (String[] row : board) {
-            if (isFourInARow(row)) {
-                return true;
-            }
-        }
-        return false;
+    private boolean checkHorizontal(int i, int j) {
+
     }
 
-    /**
-     * Check if there are any winning column formations.
-     * 
-     * @return true if there are and false otherwise.
-     */
-    private boolean isWinningColumn() {
-        for (int i = 0; i < COLUMNS; i++) {
-            String[] column = new String[COLUMNS];
-            for (int j = 0; j < ROWS; j++) {
-                column[j] = board[j][i];
-            }
-            if (isFourInARow(column)) {
-                return true;
-            }
-        }
-        return false;
+    private boolean checkVertical(int i, int j) {
+
     }
 
-    /**
-     * Check if there are any winning diagonal formations.
-     * 
-     * @return true if there are and false otherwise.
-     */
-    private boolean isWinningDiagonal() {
-        return false;
+    private boolean checkDiagonal(int i, int j) {
+
+    }
+
+    private boolean checkAntiDiagonal(int i, int j) {
 
     }
 
     /**
-     * Utility method for when given a String array, identify if there exists an
-     * element that occurs four or more times in a row.
-     * 
-     * @param list The String array to check.
-     * @return true if four in a row exists and false otherwise.
+     * Utility method for changing between player 1 and 2 after each move.
      */
-    public boolean isFourInARow(String[] list) {
-        int count = 1;
-
-        for (int i = 1; i < list.length; i++) {
-            if (count == 4) {
-                return true;
-            }
-            if (list[i] == list[i - 1] && list[i] != null) {
-                count++;
-            } else {
-                count = 1;
-            }
-        }
-        return false;
-    }
-
-    private void togglePlayers() {
+    private void changePlayers() {
         if (currentPlayer == 1) {
             currentPlayer = 2;
         } else {
