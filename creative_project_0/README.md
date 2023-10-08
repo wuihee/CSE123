@@ -2,6 +2,7 @@
 
 ## TODO
 
+- User enter non-int input.
 - Refactor based on OOP.
 
 ## Basic Requirements
