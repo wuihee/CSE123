@@ -4,6 +4,8 @@
 // C0: Abstract Strategy Game
 // TA: Heon Jwa
 
+package creative_project_0.src;
+
 // Class Board represents a 2D board for an AbstractStrategyGame.
 public class Board {
     
