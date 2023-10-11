@@ -69,8 +69,6 @@ public class ConnectFour implements AbstractStrategyGame{
             Instructions for making a move:
             1. The current state of the grid will be displayed. Each column will be numbered.
             2. To make a move, enter the number of the column where you want to drop your disc.
-            3. Ensure to check the state of the grid before making a move to see the available
-               columns.
         """;
         return instructions;
     }
