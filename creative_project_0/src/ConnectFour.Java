@@ -131,7 +131,8 @@ public class ConnectFour implements AbstractStrategyGame{
      * @param input A Scanner object to read the player's move.
      */
     public void makeMove(Scanner input) {
-        currentPlayer.makeMove(input, board);
+        int column = getUserInput(input) - 1;  // - 1 because we use 0-indexing.
+        currentPlayer.makeMove(column, board);
         if (!isGameOver()) {
             changePlayers();
         }
@@ -146,5 +147,21 @@ public class ConnectFour implements AbstractStrategyGame{
         } else {
             currentPlayer = player1;
         }
+    }
+
+    /**
+     * Gets the user input for which column they want to place their token.
+     * 
+     * @param input Scanner object which extracts the users input.
+     * @return Column which user has selected.
+     * @throws IllegalArgumentException if user didn't enter an integer.
+     */
+    private int getUserInput(Scanner input) {
+        System.out.print("Choose which column to place your token: ");
+        if (!input.hasNextInt()) {
+            input.nextLine();  // Advance input to "clear" input.
+            throw new IllegalArgumentException("You need to enter a column number.");
+        }
+        return input.nextInt();
     }
 }

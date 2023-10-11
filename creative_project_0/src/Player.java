@@ -4,8 +4,6 @@
 // C0: Abstract Strategy Game
 // TA: Heon Jwa
 
-import java.util.*;
-
 // Player class that makes moves for an AbstractStrategyGame.
 public class Player {
     
@@ -27,12 +25,10 @@ public class Player {
     /**
      * Places a token on the board for the selected column.
      * 
-     * @param input Used to retrieve user's input.
+     * @param userInput The column which the token should be placed.
      * @param board The board which to place the token on.
      */
-    public void makeMove(Scanner input, Board board) {
-        System.out.print("Choose which column to place your token: ");
-        int column = input.nextInt() - 1;
+    public void makeMove(int column, Board board) {
         board.placeToken(token, column);
     }
 
