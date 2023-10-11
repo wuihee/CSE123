@@ -20,21 +20,15 @@ public class ConnectFour implements AbstractStrategyGame{
     private Player currentPlayer;
     private WinChecker winChecker;
 
+    /**
+     * Constructor that initializes ConnectFour with the gamestate and players.
+     */
     public ConnectFour() {
         board = new Board(ROWS, COLUMNS);
         player1 = new Player("X", 1);
         player2 = new Player("O", 2);
         currentPlayer = player1;
         winChecker = new WinChecker(board, WINNING_LENGTH);
-    }
-
-    public static void main(String[] args) {
-        ConnectFour game = new ConnectFour();
-        // System.out.println(game.instructions());
-        // System.out.println(game.toString());
-        Scanner console = new Scanner(System.in);
-        game.makeMove(console);
-        System.out.println(game.toString());
     }
 
     /**
