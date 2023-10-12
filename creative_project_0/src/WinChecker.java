@@ -8,10 +8,10 @@
 public class WinChecker {
     
     // Fields
-    Board board;
-    int winningLength;
-    int rows;
-    int columns;
+    private Board board;
+    private int winningLength;
+    private int rows;
+    private int columns;
 
     /**
      * Initializes WinChecker with a ConnectFour board.
