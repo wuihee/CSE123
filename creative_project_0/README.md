@@ -1,10 +1,5 @@
 # Connect Four
 
-## TODO
-
-- User enter non-int input.
-- What is package creative_project.src?
-
 ## Basic Requirements
 
 - The game board is a 7-wide by 6-tall grid.
