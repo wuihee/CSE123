@@ -19,13 +19,13 @@ public class StrengthTask extends Task {
     /**
      * Constructor which instantiates a StrengthTask.
      * 
-     * @param weight The amount of weight needed to be lifted to complete the task.
+     * @param weightRemaining The amount of weight needed to be lifted to complete the task.
      * @param strengthRemaining The amount of strength remaining measured in kg.
      * @param description A text description of the task.
      */
-    public StrengthTask(int weight, int strengthRemaining, String description) {
+    public StrengthTask(int weightRemaining, int strengthRemaining, String description) {
         super(description);
-        this.weightRemaining = weight;
+        this.weightRemaining = weightRemaining;
         this.strengthRemaining = strengthRemaining;
         actionOptions = new ArrayList<>(Arrays.asList("lift", "rest"));
     }
