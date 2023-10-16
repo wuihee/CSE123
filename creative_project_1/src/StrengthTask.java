@@ -64,8 +64,8 @@ public class StrengthTask extends EnduranceTask {
      * @param action the action to be attempted.
      * @return true if the action is the same type of action required to complete part of the
      *         StrengthTask, false otherwise.
-     * @throws IllegalArgumentException if the action attempted is not a valid action for this task
-     *         (as specified by getActionOptions())
+     * @throws IllegalArgumentException if the action attempted is not a valid action for this
+     *         task (as specified by getActionOptions())
      * @see getActionOptions
      */
     public boolean takeAction(String action) {
