@@ -13,9 +13,9 @@ import java.util.*;
 public class PrecisionTask extends Task{
     
     // Fields
-    List<String> requiredActions;
-    List<String> actionOptions;
-    int currentAction;
+    private List<String> requiredActions;
+    private List<String> actionOptions;
+    private int currentAction;
 
     /**
      * Constructor which instantiates a PrecisionTask
@@ -47,7 +47,7 @@ public class PrecisionTask extends Task{
      * @return true if the task has been completed, false otherwise.
      */
     public boolean isComplete() {
-        return currentAction == requiredActions.size() - 1;
+        return currentAction == requiredActions.size();
     }
 
     /**
@@ -63,7 +63,7 @@ public class PrecisionTask extends Task{
     public boolean takeAction(String action) {
         if (actionOptions.indexOf(action) == -1) {
             throw new IllegalArgumentException();
-        } else if (action != requiredActions.get(currentAction)) {
+        } else if (!action.equals(requiredActions.get(currentAction))) {
             return false;
         } else {
             currentAction++;

@@ -13,10 +13,10 @@ import java.util.*;
 public class EnduranceTask extends Task{
 
     // Fields
-    List<String> actionOptions;
-    String type;
-    int duration;
-    int successfulActions;
+    private List<String> actionOptions;
+    private String type;
+    private int duration;
+    private int successfulActions;
 
     /**
      * Constructor which instantiates an EnduranceTask.
@@ -66,7 +66,7 @@ public class EnduranceTask extends Task{
     public boolean takeAction(String action) {
         if (actionOptions.indexOf(action) == -1) {
             throw new IllegalArgumentException("**Invalid action: " + action + "**");
-        } else if (action != type) {
+        } else if (!action.equals(type)) {
             return false;
         } else {
             successfulActions++;

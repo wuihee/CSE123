@@ -12,11 +12,11 @@ import java.util.*;
 public class PuzzleTask extends Task{
     
     // Fields
-    List<String> hints;
-    List<String> actionOptions;
-    String solution;
-    int currentHint;
-    boolean isSolved;
+    private List<String> hints;
+    private List<String> actionOptions;
+    private String solution;
+    private int currentHint;
+    private boolean isSolved;
 
     /**
      * Constructor which instantiates a PuzzleTask.
@@ -78,21 +78,26 @@ public class PuzzleTask extends Task{
      * @see getActionOptions
      */
     public boolean takeAction(String action) {
-        if (actionOptions.indexOf(action) == -1) {
-            throw new IllegalArgumentException();
-        } else if (action.split(" ", 2)[0] == "hint") {
-            if (currentHint < hints.size()) {
+        String[] parts = action.split(" ", 2);
+        String actionType = parts[0];
+
+        if (actionType.equals("hint") && parts.length == 1) {
+            if (currentHint < hints.size() - 1) {
                 currentHint++;
                 return true;
+            } else {
+                return false;
             }
-            return false;
-        } else {
-            String userSolution = action.split(" ", 2)[1];
-            if (userSolution == solution) {
+        } else if (actionType.equals("solve")) {
+            String userSolution = parts[1];
+            if (userSolution.equals(solution)) {
                 isSolved = true;
                 return true;
+            } else {
+                return false;
             }
-            return false;
+        } else {
+            throw new IllegalArgumentException("**Invalid action: " + action + "**");
         }
     }
 }

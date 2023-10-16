@@ -1,12 +1,5 @@
 # Survivor Game
 
-## Learning Objectives
-
-- Define relationships between Java classes using inheritance, abstract classes, and references
-- Write a Java class that extends a given abstract class
-- Produce clear and effective documentation to improve comprehension and maintainability of classes
-- Write classes that are readable and maintainable, and that conform to provided guidelines for style, and implementation
-
 ## Implementation Requirements
 
 - Each type of task should be represented by a class that extends the Task class.
