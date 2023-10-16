@@ -9,12 +9,12 @@ import java.util.*;
 /**
  * A task that tests endurance by requiring contestants to lift a huge amount of weight.
  */
-public class StrengthTask extends Task {
+public class StrengthTask extends EnduranceTask {
     
     // Fields
     private List<String> actionOptions;
-    private int weightRemaining;
-    private int strengthRemaining;
+    private int requiredStrength;
+    private int remainingStrength;
 
     /**
      * Constructor which instantiates a StrengthTask.
@@ -23,11 +23,14 @@ public class StrengthTask extends Task {
      * @param strengthRemaining The amount of strength remaining measured in kg.
      * @param description A text description of the task.
      */
-    public StrengthTask(int weightRemaining, int strengthRemaining, String description) {
-        super(description);
-        this.weightRemaining = weightRemaining;
-        this.strengthRemaining = strengthRemaining;
-        actionOptions = new ArrayList<>(Arrays.asList("lift", "rest"));
+    public StrengthTask(String type, int duration, int requiredStrength, String description) {
+        super(type, duration, description);
+        this.requiredStrength = requiredStrength;
+        remainingStrength = 50;
+        actionOptions = new ArrayList<>(Arrays.asList(
+            "bench", "deadlift", "squat", "rest"
+            )
+        );
     }
 
     /**
@@ -39,29 +42,20 @@ public class StrengthTask extends Task {
     public String getDescription() {
         return ("""
                 %s
-                Weight Remaining: %dkg
-                Strength Remaining: %dkg
-                """).formatted(super.getDescription(), weightRemaining, strengthRemaining);
+                Required Strength: %d
+                Remaining Strength: %d
+                """).formatted(super.getDescription(), requiredStrength, remainingStrength);
     }
 
     /**
-     * Returns a list of actions that may be attempted to complete this StrengthTask.
-     * Valid actions include lift, rest.
+     * Returns a list of actions that may be atempted to complete this StrengthTask.
+     * Valid actions include bench, deadlift, squat, rest.
      * 
-     * @return the list of valid actions for the StrengthTask.
+     * @return The list of valid actions for the StrengthTask.
      */
+    @Override
     public List<String> getActionOptions() {
         return actionOptions;
-    }
-
-    /**
-     * Returns whether or not this StrengthTask has been completed. The task has been completed
-     * when all the weight remaining has been lifted.
-     * 
-     * @return true if the task has been completed, false otherwise.
-     */
-    public boolean isComplete() {
-        return weightRemaining <= 0;
     }
 
     /**
@@ -77,17 +71,19 @@ public class StrengthTask extends Task {
     public boolean takeAction(String action) {
         if (actionOptions.indexOf(action) == -1) {
             throw new IllegalArgumentException("**Invalid action: " + action + "**");
-        } else if (action.equals("lift")) {
-            if (strengthRemaining == 0) {
+        } else if (action.equals(getType())) {
+            if (remainingStrength < requiredStrength) {
                 return false;
             } else {
-                weightRemaining -= strengthRemaining;
-                strengthRemaining = 0;
+                remainingStrength -= requiredStrength;
+                increaseSuccessfulActions();
                 return true;
             }
-        } else {
-            strengthRemaining += 50;
+        } else if (action.equals("rest")) {
+            remainingStrength += 50;
             return true;
+        } else {
+            return false;
         }
     }
 }

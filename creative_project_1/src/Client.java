@@ -5,11 +5,11 @@ public class Client {
         Scanner console = new Scanner(System.in);
         List<Task> challenge = new ArrayList<>();
 
-        // challenge.add(new EnduranceTask("jump", 3, "A set of three hurdles."));
-        // challenge.add(new EnduranceTask("swim", 1, "A small lake."));
-        // challenge.add(new PrecisionTask(new ArrayList<>(Arrays.asList("crawl", "climb", "run")), "A low crawl net, then a wall with a rope, then a dash to the end."));
-        // challenge.add(new PuzzleTask("4", new ArrayList<>(Arrays.asList("It's 4.", "No really, it's 4!")), "What is 2 + 2?"));
-        challenge.add(new StrengthTask(300, 100, "Lift a huge amount of weight!"));
+        challenge.add(new EnduranceTask("jump", 3, "A set of three hurdles."));
+        challenge.add(new EnduranceTask("swim", 1, "A small lake."));
+        challenge.add(new PrecisionTask(new ArrayList<>(Arrays.asList("crawl", "climb", "run")), "A low crawl net, then a wall with a rope, then a dash to the end."));
+        challenge.add(new PuzzleTask("4", new ArrayList<>(Arrays.asList("It's 4.", "No really, it's 4!")), "What is 2 + 2?"));
+        challenge.add(new StrengthTask("bench", 4, 100, "Bench press 4 times."));
 
         attemptChallenge(challenge, console);
     }

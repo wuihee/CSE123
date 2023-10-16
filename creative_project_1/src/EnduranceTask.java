@@ -37,7 +37,7 @@ public class EnduranceTask extends Task{
      * Returns a list of actions that may be attempted to complete this EnduranceTask.
      * Valid actions include jump, run, swim, crawl, climb.
      * 
-     * @return the list of valid actions for the EnduranceTask.
+     * @return the list of valid actions for the StrengthTask.
      */
     public List<String> getActionOptions() {
         return actionOptions;
@@ -72,5 +72,31 @@ public class EnduranceTask extends Task{
             successfulActions++;
             return true;
         }
+    }
+
+    /**
+     * Auxilliary method to retrieve the type of task that is required to perform.
+     * 
+     * @return type of task required to complete task.
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * Auxillliary method to retrieve the duration - the number of times the task needs to be
+     * performed.
+     * 
+     * @return number of actions required to complete task.
+     */
+    public int getDuration() {
+        return duration;
+    }
+
+    /**
+     * Auxilliary method to increment the number of successful actions performed.
+     */
+    public void increaseSuccessfulActions() {
+        successfulActions++;
     }
 }
