@@ -1,9 +1,11 @@
 # CSE123
 
-## Creative Projects
+## Assignments
 
-1. C0: [Connect Four](./creative_project_0/)
-2. C1: [Surivor Challenge](./creative_project_1/)
+### Creative Projects
+
+1. [Connect Four](./creative_project_0/)
+2. [Surivor Challenge](./creative_project_1/)
 
 ## Cheat Sheet
 
