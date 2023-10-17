@@ -1,7 +1,7 @@
 // Wuihee 
-// 10/06/2023
+// 10/17/2023
 // CSE 123 
-// C0: Abstract Strategy Game
+// C1: Survivor Challeng
 // TA: Heon Jwa
 
 import java.util.*;
@@ -66,12 +66,13 @@ public class EnduranceTask extends Task{
     public boolean takeAction(String action) {
         if (actionOptions.indexOf(action) == -1) {
             throw new IllegalArgumentException("**Invalid action: " + action + "**");
-        } else if (!action.equals(type)) {
-            return false;
-        } else {
-            successfulActions++;
-            return true;
         }
+        
+        if (!action.equals(type)) {
+            return false;
+        }
+        successfulActions++;
+        return true;
     }
 
     /**

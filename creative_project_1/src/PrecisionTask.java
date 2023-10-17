@@ -1,7 +1,7 @@
 // Wuihee 
-// 10/06/2023
+// 10/17/2023
 // CSE 123 
-// C0: Abstract Strategy Game
+// C1: Survivor Challenge
 // TA: Heon Jwa
 
 import java.util.*;
@@ -47,7 +47,7 @@ public class PrecisionTask extends Task{
      * @return true if the task has been completed, false otherwise.
      */
     public boolean isComplete() {
-        return currentAction == requiredActions.size();
+        return currentAction >= requiredActions.size();
     }
 
     /**
@@ -62,12 +62,13 @@ public class PrecisionTask extends Task{
      */
     public boolean takeAction(String action) {
         if (actionOptions.indexOf(action) == -1) {
-            throw new IllegalArgumentException();
-        } else if (!action.equals(requiredActions.get(currentAction))) {
-            return false;
-        } else {
-            currentAction++;
-            return true;
+            throw new IllegalArgumentException("**Invalid action: " + action + "**");
         }
+        
+        if (!action.equals(requiredActions.get(currentAction))) {
+            return false;
+        }
+        currentAction++;
+        return true;
     }
 }

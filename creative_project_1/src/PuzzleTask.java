@@ -1,7 +1,7 @@
 // Wuihee 
-// 10/06/2023
+// 10/17/2023
 // CSE 123 
-// C0: Abstract Strategy Game
+// C1: Survivor Challenge
 // TA: Heon Jwa
 
 import java.util.*;
@@ -81,23 +81,27 @@ public class PuzzleTask extends Task{
         String[] parts = action.split(" ", 2);
         String actionType = parts[0];
 
-        if (actionType.equals("hint") && parts.length == 1) {
+        if (!actionType.equals("solve")) {
+            if (!actionType.equals("hint")) {
+                throw new IllegalArgumentException("**Invalid action: " + action + "**");
+            } else if (parts.length > 1) {
+                throw new IllegalArgumentException("**Invalid action: " + action + "**");
+            }
+        }
+
+        if (actionType.equals("hint")) {
             if (currentHint < hints.size() - 1) {
                 currentHint++;
                 return true;
-            } else {
-                return false;
             }
-        } else if (actionType.equals("solve")) {
-            String userSolution = parts[1];
-            if (userSolution.equals(solution)) {
-                isSolved = true;
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            throw new IllegalArgumentException("**Invalid action: " + action + "**");
+            return false;
         }
+
+        String userSolution = parts[1];
+        if (userSolution.equals(solution)) {
+            isSolved = true;
+            return true;
+        }
+        return false;
     }
 }

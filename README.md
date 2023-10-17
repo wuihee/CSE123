@@ -64,7 +64,7 @@ Car myCar = new Toyota<>();
 #### Overriding & Overloading
 
 - **Overriding**: When a child-class overrides it's parents method. Can be indicated with the `@Override` decorator.
-- **Overloading**: When multiple methods have the same name but different sets of parameters. 
+- **Overloading**: When multiple methods have the same name but different sets of parameters.
 
 ### 4. Comparable & Abstract Classes
 
