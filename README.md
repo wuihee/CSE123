@@ -59,7 +59,12 @@ Car myCar = new Toyota<>();
 - However, a runtime error will be thrown if incorrect casting is used.
 - Additionally, if the casted type doesn't contain the method that we are calling, a compiler error will be thrown.
 
-### Comparable & Abstract Classes
+#### Overriding & Overloading
+
+- **Overriding**: When a child-class overrides it's parents method. Can be indicated with the `@Override` decorator.
+- **Overloading**: When multiple methods have the same name but different sets of parameters. 
+
+### 4. Comparable & Abstract Classes
 
 #### Comparable
 
