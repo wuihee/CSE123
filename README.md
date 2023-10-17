@@ -57,6 +57,7 @@ Car myCar = new Toyota<>();
 ```
 
 - However, a runtime error will be thrown if incorrect casting is used.
+- Additionally, if the casted type doesn't contain the method that we are calling, a compiler error will be thrown.
 
 ### Comparable & Abstract Classes
 
