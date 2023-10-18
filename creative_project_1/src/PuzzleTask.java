@@ -87,9 +87,6 @@ public class PuzzleTask extends Task{
                 throw new IllegalArgumentException("**Invalid action: " + action + "**");
             }
         }
-        if (actionType.equals("solve") && parts.length == 1) {
-            throw new IllegalArgumentException("**Invalid action: " + action + "**");
-        }
 
         if (actionType.equals("hint")) {
             if (currentHint < hints.size() - 1) {
@@ -100,6 +97,9 @@ public class PuzzleTask extends Task{
         }
 
         String userSolution = parts[1];
+        if (parts.length == 1) {
+            return false;
+        }
         if (userSolution.equals(solution)) {
             isSolved = true;
             return true;
