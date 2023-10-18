@@ -66,7 +66,6 @@ public class StrengthTask extends EnduranceTask {
      *         StrengthTask, false otherwise.
      * @throws IllegalArgumentException if the action attempted is not a valid action for this
      *         task (as specified by getActionOptions())
-     * @see getActionOptions
      */
     public boolean takeAction(String action) {
         if (actionOptions.indexOf(action) == -1) {

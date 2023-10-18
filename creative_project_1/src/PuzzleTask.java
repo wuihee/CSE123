@@ -74,8 +74,6 @@ public class PuzzleTask extends Task{
      * @return true if corrected solution is provided or a hint was requested. False if the
      *         solution was wrong or no hints remain.
      * @throws IllegalArgumentException if the action attempted is not a valid action for this task
-     *         (as specified by getActionOptions())
-     * @see getActionOptions
      */
     public boolean takeAction(String action) {
         String[] parts = action.split(" ", 2);

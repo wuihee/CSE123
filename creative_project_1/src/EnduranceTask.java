@@ -1,7 +1,7 @@
 // Wuihee 
 // 10/17/2023
 // CSE 123 
-// C1: Survivor Challeng
+// C1: Survivor Challenge
 // TA: Heon Jwa
 
 import java.util.*;
@@ -61,7 +61,6 @@ public class EnduranceTask extends Task{
      *         EnduranceTask, false otherwise.
      * @throws IllegalArgumentException if the action attempted is not a valid action for this task
      *         (as specified by getActionOptions())
-     * @see getActionOptions
      */
     public boolean takeAction(String action) {
         if (actionOptions.indexOf(action) == -1) {
