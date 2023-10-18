@@ -96,10 +96,10 @@ public class PuzzleTask extends Task{
             return false;
         }
 
-        String userSolution = parts[1];
         if (parts.length == 1) {
             return false;
         }
+        String userSolution = parts[1];
         if (userSolution.equals(solution)) {
             isSolved = true;
             return true;
