@@ -82,9 +82,13 @@ public class PuzzleTask extends Task{
         if (!actionType.equals("solve")) {
             if (!actionType.equals("hint")) {
                 throw new IllegalArgumentException("**Invalid action: " + action + "**");
-            } else if (parts.length > 1) {
+            }
+            if (parts.length > 1) {
                 throw new IllegalArgumentException("**Invalid action: " + action + "**");
             }
+        }
+        if (actionType.equals("solve") && parts.length == 1) {
+            throw new IllegalArgumentException("**Invalid action: " + action + "**");
         }
 
         if (actionType.equals("hint")) {
