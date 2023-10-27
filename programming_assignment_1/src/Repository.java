@@ -98,11 +98,13 @@ public class Repository {
      *         that matches the given ID in the repository.
      */
     public boolean drop(String targetId) {
-        Commit current = head;
+        Commit sentinel = new Commit("", head);
+        Commit current = sentinel;
 
-        while (current != null && current.past != null) {
-            if (current.past.id == targetId) {
+        while (current.past != null) {
+            if (current.past.id.equals(targetId)) {
                 current.past = current.past.past;
+                head = sentinel.past;
                 return true;
             }
             current = current.past;

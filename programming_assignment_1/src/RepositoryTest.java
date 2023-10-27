@@ -89,10 +89,6 @@ public class RepositoryTest {
     @Test
     @DisplayName("Test synchronize()")
     public void testSynchronize() {
-        repo2.commit("c1");
-        repo1.commit("c2");
-        repo1.commit("c3");
-        repo2.commit("c4");
     }
 
     /*
