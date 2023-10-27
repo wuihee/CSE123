@@ -1,4 +1,4 @@
-# Connect Four
+# Creative Project 0: Connect Four
 
 ## Basic Requirements
 

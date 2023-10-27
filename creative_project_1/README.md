@@ -1,4 +1,4 @@
-# Survivor Game
+# Creative Project 1: Survivor Game
 
 ## TODO
 
