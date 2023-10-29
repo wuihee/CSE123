@@ -19,8 +19,8 @@ public class RepositoryTest {
     }
 
     @Test
-    @DisplayName("Test Repository()")
-    public void testRepository() {
+    @DisplayName("Test Constructor()")
+    public void testConstructor() {
         // Test for IllegalArgumentException if repo name is null or "".
         assertThrows(IllegalArgumentException.class, () -> {
             new Repository(null);
@@ -28,6 +28,10 @@ public class RepositoryTest {
         assertThrows(IllegalArgumentException.class, () -> {
             new Repository("");
         });
+
+        // Check that constructor head is null.
+        assertNull(repo1.getRepoHead());
+        assertNull(repo2.getRepoHead());
     }
 
     @Test
@@ -218,9 +222,22 @@ public class RepositoryTest {
      * Test synchronize when repo 2 has no commits.
      */
     @Test
-    @DisplayName("Test synchronize() (Empty)")
-    public void testSynchronizeEmpty() {
+    @DisplayName("Test synchronize() (Other Empty)")
+    public void testSynchronizeOtherEmpty() {
         String commitId = repo1.commit("Commit 1");
+        repo1.synchronize(repo2);
+        assertEquals(1, repo1.getRepoSize());
+        assertEquals(0, repo2.getRepoSize());
+        assertEquals(commitId, repo1.getRepoHead());
+    }
+
+    /**
+     * Test synchronize when repo 1 has no commits.
+     */
+    @Test
+    @DisplayName("Test synchronize() (This Empty)")
+    public void testSynchronizeThisEmpty() {
+        String commitId = repo2.commit("Commit 1");
         repo1.synchronize(repo2);
         assertEquals(1, repo1.getRepoSize());
         assertEquals(0, repo2.getRepoSize());

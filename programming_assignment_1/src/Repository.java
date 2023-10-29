@@ -12,12 +12,12 @@ public class Repository {
     // Fields
     private String name;
     private Commit head;
-    private int size;
 
     /**
      * Constructor for Repository class.
      * 
      * @param name The name of the repository.
+     * @throws IllegalArgumentException if name is null or "".
      */
     public Repository(String name) {
         if (name == null || name.equals("")) {
@@ -25,7 +25,6 @@ public class Repository {
         }
 
         this.name = name;
-        this.size = 0;
     }
 
     /**
@@ -36,7 +35,6 @@ public class Repository {
      */
     public String commit(String message) {
         head = new Commit(message, head);
-        size++;
         return getRepoHead();
     }
 
@@ -58,6 +56,12 @@ public class Repository {
      * @return the number of commits in the repository.
      */
     public int getRepoSize() {
+        int size = 0;
+        Commit pointer = head;
+        while (pointer != null) {
+            size++;
+            pointer = pointer.past;
+        }
         return size;
     }
 
@@ -102,18 +106,23 @@ public class Repository {
      *         that matches the given ID in the repository.
      */
     public boolean drop(String targetId) {
-        Commit sentinel = new Commit("Sentinel", head);
-        Commit pointer = sentinel;
+        Commit pointer = head;
 
-        while (pointer.past != null) {
-            if (pointer.past.id.equals(targetId)) {
-                pointer.past = pointer.past.past;
-                head = sentinel.past;
-                size--;
-                return true;
+        if (pointer == null) {
+            return false;
+        } else if (pointer.id.equals(targetId)) {
+            head = pointer.past;
+            return true;
+        } else {
+            while (pointer.past != null) {
+                if (pointer.past.id.equals(targetId)) {
+                    pointer.past = pointer.past.past;
+                    return true;
+                }
+                pointer = pointer.past;
             }
-            pointer = pointer.past;
         }
+
         return false;
     }
 
@@ -123,7 +132,7 @@ public class Repository {
      * return everything.
      * 
      * @param n The number of commits to display.
-     * @throws IllegalArgumentException if n is less than 0.
+     * @throws IllegalArgumentException if n is non-positive.
      * @return A String containing list of n commits separated by newlines.
      */
     public String getHistory(int n) {
@@ -151,30 +160,37 @@ public class Repository {
      * @param other The other repository to combine.
      */
     public void synchronize(Repository other) {
-        Commit sentinel = new Commit("Sentinel 1", head);
-        Commit thisPointer = sentinel;
+        Commit thisPointer = head;
         Commit otherPointer = other.head;
         Commit tempPointer;
 
-        while (thisPointer.past != null && otherPointer != null) {
-            if (otherPointer.timeStamp > thisPointer.past.timeStamp) {
-                tempPointer = thisPointer.past;
-                thisPointer.past = otherPointer;
-                otherPointer = otherPointer.past;
-                thisPointer.past.past = tempPointer;
-                thisPointer = thisPointer.past;
-            } else {
-                thisPointer = thisPointer.past;
+        if (thisPointer != null && otherPointer != null) {
+            if (otherPointer.timeStamp > thisPointer.timeStamp) {
+                tempPointer = thisPointer;
+                thisPointer = otherPointer;
+                otherPointer = tempPointer;
+                head = thisPointer;
             }
+
+            while (thisPointer.past != null && otherPointer != null) {
+                if (otherPointer.timeStamp > thisPointer.past.timeStamp) {
+                    tempPointer = thisPointer.past;
+                    thisPointer.past = otherPointer;
+                    otherPointer = otherPointer.past;
+                    thisPointer.past.past = tempPointer;
+                    thisPointer = thisPointer.past;
+                } else {
+                    thisPointer = thisPointer.past;
+                }
+            }
+
+            if (otherPointer != null) {
+                thisPointer.past = otherPointer;
+            }
+        } else if (thisPointer == null) {
+            head = otherPointer;
         }
 
-        if (otherPointer != null) {
-            thisPointer.past = otherPointer;
-        }
-
-        size += other.size;
-        head = sentinel.past;
-        other.size = 0;
         other.head = null;
     }
 
