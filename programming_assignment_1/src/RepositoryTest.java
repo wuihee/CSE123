@@ -214,6 +214,9 @@ public class RepositoryTest {
         assertFalse(repo1.contains(commitId4));
     }
 
+    /**
+     * Test synchronize when repo 2 has no commits.
+     */
     @Test
     @DisplayName("Test synchronize() (Empty)")
     public void testSynchronizeEmpty() {
@@ -222,91 +225,91 @@ public class RepositoryTest {
         assertEquals(1, repo1.getRepoSize());
         assertEquals(0, repo2.getRepoSize());
         assertEquals(commitId, repo1.getRepoHead());
-
-        // Synchronizing with a repo with earlier commits.
-        
-
-        // Synchrnoizing with a repo with later commits.
-        // Synchronizing with a repo that has both earlier and later commits.
     }
 
+    /**
+     * Test synchronize when repo 2 has earlier commits.
+     */
     @Test
     @DisplayName("Test synchronize() (Earlier)")
     public void testSynchronizeEarlier() throws InterruptedException {
+        // Set up commits.
         String[] commitIds = new String[4];
-    
-        commitIds[3] = repo2.commit("Commit 1");
-        Thread.sleep(1);
-        commitIds[2] = repo2.commit("Commit 2");
-        Thread.sleep(1);
-        commitIds[1] = repo1.commit("Commit 3");
-        Thread.sleep(1);
-        commitIds[0] = repo1.commit("Commit 4");
+        commitIds[3] = commitAndWait(repo2, "Commit 1");
+        commitIds[2] = commitAndWait(repo2, "Commit 2");
+        commitIds[1] = commitAndWait(repo1, "Commit 3");
+        commitIds[0] = commitAndWait(repo1, "Commit 4");
         repo1.synchronize(repo2);
+
+        // Test for size after synchronize.
         assertEquals(4, repo1.getRepoSize());
         assertEquals(0, repo2.getRepoSize());
 
+        // Test for correct order of commits.
         String repositoryHistory = repo1.getHistory(4);
         String[] commits = repositoryHistory.split("\n");
-
         for (int i = 0; i < 4; i++) {
             assertTrue(commits[i].startsWith(commitIds[i]));
         }
     }
 
+    /**
+     * Test synchronize when repo 2 has later commits.
+     */
     @Test
     @DisplayName("Test synchronize() (Later)")
     public void testSynchronizeLater() throws InterruptedException {
+        // Set up commits.
         String[] commitIds = new String[4];
-    
-        commitIds[3] = repo1.commit("Commit 1");
-        Thread.sleep(1);
-        commitIds[2] = repo1.commit("Commit 2");
-        Thread.sleep(1);
-        commitIds[1] = repo2.commit("Commit 3");
-        Thread.sleep(1);
-        commitIds[0] = repo2.commit("Commit 4");
+        commitIds[3] = commitAndWait(repo1, "Commit 1");
+        commitIds[2] = commitAndWait(repo1, "Commit 2");
+        commitIds[1] = commitAndWait(repo2, "Commit 3");
+        commitIds[0] = commitAndWait(repo2, "Commit 4");
         repo1.synchronize(repo2);
+
+        // Test for size after synchronize.
         assertEquals(4, repo1.getRepoSize());
         assertEquals(0, repo2.getRepoSize());
 
+        // Test for correct order of commits.
         String repositoryHistory = repo1.getHistory(4);
         String[] commits = repositoryHistory.split("\n");
-
         for (int i = 0; i < 4; i++) {
             assertTrue(commits[i].startsWith(commitIds[i]));
         }
-        // Synchronizing with a repo that has both earlier and later commits.
     }
 
+    /**
+     * Test for a combination of commits in both repos.
+     */
     @Test
     @DisplayName("Test synchronize()")
     public void testSynchronize() throws InterruptedException {
+        // Set up commits.
         String[] commitIds = new String[6];
-    
-        commitIds[5] = repo2.commit("Commit 1");
-        Thread.sleep(1);
-        commitIds[4] = repo2.commit("Commit 2");
-        Thread.sleep(1);
-        commitIds[3] = repo1.commit("Commit 3");
-        Thread.sleep(1);
-        commitIds[2] = repo1.commit("Commit 4");
-        Thread.sleep(1);
-        commitIds[1] = repo2.commit("Commit 5");
-        Thread.sleep(1);
-        commitIds[0] = repo2.commit("Commit 6");
-        Thread.sleep(1);
-
+        commitIds[5] = commitAndWait(repo2, "Commit 1");
+        commitIds[4] = commitAndWait(repo2, "Commit 2");
+        commitIds[3] = commitAndWait(repo1, "Commit 3");
+        commitIds[2] = commitAndWait(repo1, "Commit 4");
+        commitIds[1] = commitAndWait(repo2, "Commit 5");
+        commitIds[0] = commitAndWait(repo1, "Commit 6");
         repo1.synchronize(repo2);
+
+        // Test for size after synchronize.
         assertEquals(6, repo1.getRepoSize());
         assertEquals(0, repo2.getRepoSize());
 
+        // Test for correct order of commits.
         String repositoryHistory = repo1.getHistory(6);
         String[] commits = repositoryHistory.split("\n");
-
         for (int i = 0; i < 6; i++) {
             assertTrue(commits[i].startsWith(commitIds[i]));
         }
-        // Synchronizing with a repo that has both earlier and later commits.
+    }
+
+    private String commitAndWait(Repository repo, String message) throws InterruptedException {
+        String commitId = repo.commit(message);
+        Thread.sleep(1);
+        return commitId;
     }
 }
