@@ -19,78 +19,124 @@ public class RepositoryTest {
     }
 
     @Test
+    @DisplayName("Test Repository()")
+    public void testRepository() {
+        // Test for IllegalArgumentException if repo name is null or "".
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Repository(null);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Repository("");
+        });
+    }
+
+    @Test
     @DisplayName("Test commit()")
     public void testCommit() {
-        String commitId = repo1.commit("Test Commit 1");
-        assertEquals(commitId, repo1.getRepoHead());
-        assertEquals(1, repo1.getRepoSize());
+        // Check repo size and head for an empty repo.
+        assertEquals(0, repo1.getRepoSize());
+        assertNull(repo1.getRepoHead());
 
-        commitId = repo1.commit("Test Commit 2");
-        assertEquals(commitId, repo1.getRepoHead());
+        // Create a commit and check repo size, head, and return commit ID.
+        String commitId1 = repo1.commit("Test Commit 1");
+        assertEquals(commitId1, repo1.getRepoHead());
+        assertEquals(1, repo1.getRepoSize());
+        assertTrue(repo1.contains(commitId1));
+
+        // Create second commit and check repo size, head, and return commit ID.
+        String commitId2 = repo1.commit("Test Commit 2");
+        assertEquals(commitId2, repo1.getRepoHead());
         assertEquals(2, repo1.getRepoSize());
+        assertTrue(repo1.contains(commitId2));
     }
 
     @Test
     @DisplayName("Test getRepoHead()")
     public void testGetRepoHead() {
-        assertEquals(null, repo1.getRepoHead());
-        String commitId = repo1.commit("Test Commit");
-        assertEquals(commitId, repo1.getRepoHead());
+        // Check 'getRepoHead' for an empty repository.
+        assertNull(repo1.getRepoHead());
+
+        // Create a commit and check for repo head.
+        String commitId1 = repo1.commit("Test Commit");
+        assertEquals(commitId1, repo1.getRepoHead());
+
+        // Create a second commit and check for repo head.
+        String commitId2 = repo1.commit("Test Commit");
+        assertEquals(commitId2, repo1.getRepoHead());
+
+        // Drop most recent commit and check for repo head.
+        repo1.drop(commitId2);
+        assertEquals(commitId1, repo1.getRepoHead());
     }
 
     @Test
     @DisplayName("Test getRepoSize()")
     public void testGetRepoSize() {
+        // Check 'getRepoSize' for an empty repo.
         assertEquals(0, repo1.getRepoSize());
-        repo1.commit("Test Commit 1");
+
+        // Create a commit and check for size.
+        String commitId = repo1.commit("Test Commit 1");
+        assertEquals(1, repo1.getRepoSize());
+
+        // Create another commit and check for size.
         repo1.commit("Test Commit 2");
         assertEquals(2, repo1.getRepoSize());
+
+        // Drop a commit and check for size.
+        repo1.drop(commitId);
+        assertEquals(1, repo1.getRepoSize());
     }
 
     @Test
     @DisplayName("Test toString()")
     public void testToString() {
+        // Check 'toString' for an empty repo.
         assertEquals("repo1 - No commits", repo1.toString());
-        assertEquals("repo2 - No commits", repo2.toString());
-        repo1.commit("Test Commit 1");
-        assertEquals("repo1 - Current head: " + repo1.head.toString(), repo1.toString());
-        repo1.commit("Test Commit 2");
-        assertEquals("repo1 - Current head: " + repo1.head.toString(), repo1.toString());
+
+        // Create a new commit and check 'toString'.
+        String commitId1 = repo1.commit("First commit");
+        assertTrue(repo1.toString().startsWith("repo1 - Current head: " + commitId1 + " at "));
+
+        // Create a second commit.
+        String commitId2 = repo1.commit("Second commit");
+        assertTrue(repo1.toString().startsWith("repo1 - Current head: " + commitId2 + " at "));
     }
 
     @Test
     @DisplayName("Test contains()")
     public void testContains() {
+        // Check 'contains' for an empty repo.
         assertFalse(repo1.contains("0"));
-        repo1.commit("Test Commit 1");
-        assertTrue(repo1.contains("0"));
-        repo1.commit("Test Commit 2");
-        repo1.drop("0");
-        assertFalse(repo1.contains("0"));
+
+        // Create a commit and check if it is contained.
+        String commitId1 = repo1.commit("Test Commit 1");
+        assertTrue(repo1.contains(commitId1));
+
+        // Create another commit and check if both are contained.
+        String commitId2 = repo1.commit("Test Commit 2");
+        assertTrue(repo1.contains(commitId1));
+        assertTrue(repo1.contains(commitId2));
+
+        // Drop a commit and test that it doesn't contain it.
+        repo1.drop(commitId1);
+        assertFalse(repo1.contains(commitId1));
+
+        // Check for a non-existent ID.
+        assertFalse(repo1.contains("NULL"));
     }
 
-    @Test
-    @DisplayName("Test drop()")
-    public void testDrop() {
-        assertFalse(repo1.drop("0"));
-        repo1.commit("Test Commit");
-        assertTrue(repo1.drop("0"));
-    }
-
-    @Test
-    @DisplayName("Test getHistory()")
-    public void testGetHistory() {
-    }
-
-    @Test
-    @DisplayName("Test synchronize()")
-    public void testSynchronize() {
-    }
-
-    /*
     @Test
     @DisplayName("Test getHistory()")
     public void getHistory() {
+        // Test that `getHistory` throws an IllegalArgumentException if n <= 0.
+        assertThrows(IllegalArgumentException.class, () -> {
+            repo1.getHistory(0);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            repo1.getHistory(-1);
+        });
+
         // Initialize commit messages
         String[] commitMessages = new String[]{"Initial commit.", "Updated method documentation.",
                                                 "Removed unnecessary object creation."};
@@ -130,36 +176,137 @@ public class RepositoryTest {
         }
     }
 
-    @Test
-    @DisplayName("Test drop() (empty case)")
-    public void testDropEmpty() {
-        assertFalse(repo1.drop("123"));
+        @Test
+    @DisplayName("Test drop()")
+    public void testDrop() {
+        // Try to drop a commit from an empty repo.
+        assertFalse(repo1.drop("0"));
+
+        // Check if repo size is 0.
+        assertEquals(repo1.getRepoSize(), 0);
+
+        // Create a commit and try to drop non-existent commit
+        String commitId1 = repo1.commit("Test Commit 1");
+        assertFalse(repo1.drop("NULL"));
+
+        // Check that repo size is 1.
+        assertEquals(repo1.getRepoSize(), 1);
+
+        // Create second commit and drop it (Drop first commit).
+        String commitId2 = repo1.commit("Test Commit 2");
+        assertTrue(repo1.drop(commitId2));
+
+        // Check that repo size is still 1.
+        assertEquals(repo1.getRepoSize(), 1);
+
+        // Create a third commit, drop the first (Drop last commit).
+        repo1.commit("Third Commit");
+        assertTrue(repo1.drop(commitId1));
+        assertFalse(repo1.contains(commitId1));
+
+        // Check that repo size is still 1.
+        assertEquals(repo1.getRepoSize(), 1);
+
+        // Test dropping the middle commit.
+        String commitId4 = repo1.commit("Fourth Commit");
+        repo1.commit("Fifth Commit");
+        assertTrue(repo1.drop(commitId4));
+        assertFalse(repo1.contains(commitId4));
     }
 
     @Test
-    @DisplayName("Test drop() (front case)")
-    public void testDropFront() {
-        assertEquals(repo1.getRepoSize(), 0);
-        // Initialize commit messages
-        String[] commitMessages = new String[]{"First commit.", "Added unit tests."};
+    @DisplayName("Test synchronize() (Empty)")
+    public void testSynchronizeEmpty() {
+        String commitId = repo1.commit("Commit 1");
+        repo1.synchronize(repo2);
+        assertEquals(1, repo1.getRepoSize());
+        assertEquals(0, repo2.getRepoSize());
+        assertEquals(commitId, repo1.getRepoHead());
 
-        // Commit to repo1 - ID = "0"
-        repo1.commit(commitMessages[0]);
-
-        // Commit to repo2 - ID = "1"
-        repo2.commit(commitMessages[1]);
-
-        // Assert that repo1 successfully dropped "0"
-        assertTrue(repo1.drop("0"));
-        assertEquals(repo1.getRepoSize(), 0);
+        // Synchronizing with a repo with earlier commits.
         
-        // Assert that repo2 does not drop "0" but drops "1"
-        // (Note that the commit ID increments regardless of the repository!)
-        assertFalse(repo2.drop("0"));
-        assertTrue(repo2.drop("1"));
-        assertEquals(repo2.getRepoSize(), 0);
-    }
-    */
 
-    /* TODO - Add additional unit tests */
+        // Synchrnoizing with a repo with later commits.
+        // Synchronizing with a repo that has both earlier and later commits.
+    }
+
+    @Test
+    @DisplayName("Test synchronize() (Earlier)")
+    public void testSynchronizeEarlier() throws InterruptedException {
+        String[] commitIds = new String[4];
+    
+        commitIds[3] = repo2.commit("Commit 1");
+        Thread.sleep(1);
+        commitIds[2] = repo2.commit("Commit 2");
+        Thread.sleep(1);
+        commitIds[1] = repo1.commit("Commit 3");
+        Thread.sleep(1);
+        commitIds[0] = repo1.commit("Commit 4");
+        repo1.synchronize(repo2);
+        assertEquals(4, repo1.getRepoSize());
+        assertEquals(0, repo2.getRepoSize());
+
+        String repositoryHistory = repo1.getHistory(4);
+        String[] commits = repositoryHistory.split("\n");
+
+        for (int i = 0; i < 4; i++) {
+            assertTrue(commits[i].startsWith(commitIds[i]));
+        }
+    }
+
+    @Test
+    @DisplayName("Test synchronize() (Later)")
+    public void testSynchronizeLater() throws InterruptedException {
+        String[] commitIds = new String[4];
+    
+        commitIds[3] = repo1.commit("Commit 1");
+        Thread.sleep(1);
+        commitIds[2] = repo1.commit("Commit 2");
+        Thread.sleep(1);
+        commitIds[1] = repo2.commit("Commit 3");
+        Thread.sleep(1);
+        commitIds[0] = repo2.commit("Commit 4");
+        repo1.synchronize(repo2);
+        assertEquals(4, repo1.getRepoSize());
+        assertEquals(0, repo2.getRepoSize());
+
+        String repositoryHistory = repo1.getHistory(4);
+        String[] commits = repositoryHistory.split("\n");
+
+        for (int i = 0; i < 4; i++) {
+            assertTrue(commits[i].startsWith(commitIds[i]));
+        }
+        // Synchronizing with a repo that has both earlier and later commits.
+    }
+
+    @Test
+    @DisplayName("Test synchronize()")
+    public void testSynchronize() throws InterruptedException {
+        String[] commitIds = new String[6];
+    
+        commitIds[5] = repo2.commit("Commit 1");
+        Thread.sleep(1);
+        commitIds[4] = repo2.commit("Commit 2");
+        Thread.sleep(1);
+        commitIds[3] = repo1.commit("Commit 3");
+        Thread.sleep(1);
+        commitIds[2] = repo1.commit("Commit 4");
+        Thread.sleep(1);
+        commitIds[1] = repo2.commit("Commit 5");
+        Thread.sleep(1);
+        commitIds[0] = repo2.commit("Commit 6");
+        Thread.sleep(1);
+
+        repo1.synchronize(repo2);
+        assertEquals(6, repo1.getRepoSize());
+        assertEquals(0, repo2.getRepoSize());
+
+        String repositoryHistory = repo1.getHistory(6);
+        String[] commits = repositoryHistory.split("\n");
+
+        for (int i = 0; i < 6; i++) {
+            assertTrue(commits[i].startsWith(commitIds[i]));
+        }
+        // Synchronizing with a repo that has both earlier and later commits.
+    }
 }
