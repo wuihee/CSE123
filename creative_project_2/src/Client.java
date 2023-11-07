@@ -3,6 +3,13 @@ import java.util.*;
 
 public class Client {
     public static void main(String[] args) throws Exception {
+        // Mondrian mond = new Mondrian();
+        // Random random = new Random();
+        // for (int i = 0; i < 1000; i++) {
+        //     Picture pic = new Picture(random.nextInt(300, 1200), random.nextInt(300, 1200));
+        //     Color[][] pixels = pic.getPixels();
+        //     mond.paintBasicMondrian(pixels);
+        // }
         Scanner console = new Scanner(System.in);
         System.out.println("Welcome to the CSE 123 Mondrian Art Generator!");
 
