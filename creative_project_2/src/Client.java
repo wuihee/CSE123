@@ -34,7 +34,7 @@ public class Client {
         }
         
         pic.setPixels(pixels);
-        pic.save(choice == 1 ? "basic.png" : "extension.png");
+        pic.save(choice == 1 ? "./creative_project_2/basic.png" : "./creative_project_2/extension.png");
         pic.show();
         System.out.println("Enjoy your artwork!");
     }
