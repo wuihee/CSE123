@@ -1,6 +1,15 @@
+// Wuihee 
+// 11/8/2023
+// CSE 123 
+// C2: Mondrian Art
+// TA: Heon Jwa
+
 import java.util.*;
 import java.awt.*;
 
+/**
+ * A class that helps to generate Mondrian art.
+ */
 public class Mondrian {
 
     // Fields
@@ -87,7 +96,7 @@ public class Mondrian {
         } else {
             color = getRegionalColor(pixels, w1, h1);
         }
-        
+
         for (int i = h1; i < h2; i++) {
             for (int j = w1; j < w2; j++) {
                 pixels[i][j] = color;
