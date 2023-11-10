@@ -1,3 +1,9 @@
+// Wuihee 
+// 11/08/2023
+// CSE 123 
+// C2: Mondrian Art
+// TA: Heon Jwa
+
 import java.util.*;
 import java.awt.*;
 
