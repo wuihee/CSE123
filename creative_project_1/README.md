@@ -1,11 +1,5 @@
 # Creative Project 1: Survivor Game
 
-## TODO
-
-- READ THROUGH AND REFACTOR IF NECESSARY.
-- Should I have actionOptions as a field?
-- Can my StrengthTask inherit from Task or must it be from the other tasks?
-
 ## Implementation Requirements
 
 - Each type of task should be represented by a class that extends the Task class.

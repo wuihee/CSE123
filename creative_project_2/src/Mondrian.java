@@ -1,9 +1,5 @@
 // Wuihee 
-<<<<<<< HEAD
 // 11/08/2023
-=======
-// 11/8/2023
->>>>>>> 1dae126f18f7a6f7a21c56ba3c1c11811feb9d4d
 // CSE 123 
 // C2: Mondrian Art
 // TA: Heon Jwa

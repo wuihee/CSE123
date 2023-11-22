@@ -6,6 +6,13 @@
 
 1. [Connect Four](./creative_project_0/)
 2. [Surivor Challenge](./creative_project_1/)
+3. [Mondrian Art](./creative_project_2/)
+4. [BrettFeed Quiz](./creative_project_3/)
+
+### Programming Assignments
+
+1. [Mini-Git](./programming_assignment_1/)
+2. [Disaster Relief](./programming_assignment_2/)
 
 ## Cheat Sheet
 
