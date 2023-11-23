@@ -19,8 +19,6 @@ public class Client {
         System.out.println("Quiz created!");
         System.out.println();
 
-        quiz.printTree();
-
         String option = "";
         while (!option.equalsIgnoreCase("quit")) {
             option = menu(console);
@@ -29,18 +27,18 @@ public class Client {
             if (option.equalsIgnoreCase("take")) {
                 quiz.takeQuiz(console);
                 System.out.println();
-            // } else if (option.equalsIgnoreCase("add")) {
-            //     addQ(console, quiz);
-            //     System.out.println();
-            // } else if (option.equalsIgnoreCase("export")) {
-            //     System.out.print("Enter file to export to: ");
-            //     String outFileName = console.nextLine();
-            //     PrintStream outFile = new PrintStream(new File(outFileName));
-            //     quiz.export(outFile);
-            //     System.out.println("Quiz exported!");
-            //     System.out.println();
-            // } else if (!option.equalsIgnoreCase("quit")) {
-            //     System.out.println("  Invalid choice. Please try again.");
+            } else if (option.equalsIgnoreCase("add")) {
+                addQ(console, quiz);
+                System.out.println();
+            } else if (option.equalsIgnoreCase("export")) {
+                System.out.print("Enter file to export to: ");
+                String outFileName = console.nextLine();
+                PrintStream outFile = new PrintStream(new File(outFileName));
+                quiz.export(outFile);
+                System.out.println("Quiz exported!");
+                System.out.println();
+            } else if (!option.equalsIgnoreCase("quit")) {
+                System.out.println("  Invalid choice. Please try again.");
             }
         }
     }
@@ -54,22 +52,22 @@ public class Client {
         return console.nextLine();
     }
 
-    // private static void addQ(Scanner console, QuizTree quiz) {
-    //     System.out.print("Enter result to replace: ");
-    //     String toReplace = console.nextLine();
+    private static void addQ(Scanner console, QuizTree quiz) {
+        System.out.print("Enter result to replace: ");
+        String toReplace = console.nextLine();
         
-    //     System.out.print("Enter left choice: ");
-    //     String leftChoice = console.nextLine();
+        System.out.print("Enter left choice: ");
+        String leftChoice = console.nextLine();
 
-    //     System.out.print("Enter right choice: ");
-    //     String rightChoice = console.nextLine();
+        System.out.print("Enter right choice: ");
+        String rightChoice = console.nextLine();
 
-    //     System.out.print("Enter left result: ");
-    //     String leftResult = console.nextLine();
+        System.out.print("Enter left result: ");
+        String leftResult = console.nextLine();
 
-    //     System.out.print("Enter right result: ");
-    //     String rightResult = console.nextLine();
+        System.out.print("Enter right result: ");
+        String rightResult = console.nextLine();
 
-    //     quiz.addQuestion(toReplace, leftChoice, rightChoice, leftResult, rightResult);
-    // }
+        quiz.addQuestion(toReplace, leftChoice, rightChoice, leftResult, rightResult);
+    }
 }
