@@ -25,4 +25,3 @@
 - The `QuizTreeNode` class must not contain any constructors or methods that are not used by the `QuizTree` class.
 - The `QuizTreeNode` class must not contain any logic necessary to take a quiz - it should purely represent a node in the tree.
 - You must have a single `QuizTreeNode` class that can represent both choices and results - you should not create separate classes for the different types of nodes.
-  - You may also not create a single base class or interface that two separate classes extend or implement. All nodes in the tree must be instances of the same class.
