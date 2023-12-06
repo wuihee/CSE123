@@ -8,7 +8,7 @@
 
 ### `HuffmanCode`
 
-- **`public HuffmanCode(int[] frequencies)`**: This constructor should initialize a new HuffmanCode object using the algorithm described above for building a Huffman code from an array of frequencies. frequencies is an array of frequencies where frequences[i] is the count of the character with ASCII value i. Make sure to use a PriorityQueue to build the Huffman tree.
+- **`public HuffmanCode(int[] frequencies)`**: This constructor should initialize a new HuffmanCode object using the algorithm described above for building a Huffman code from an array of frequencies. frequencies is an array of frequencies where frequences[i] is the count of the character with ASCII value i.
 
 If there exists a character with a frequency <= 0, the character should not be included in the HuffmanCode object.
 

@@ -15,22 +15,15 @@ public class HuffmanCode {
 
     // Fields
     HuffmanNode root;
-    
+
     /**
      * Instantiate HuffmanCode with an array of character frequencies.
      * 
      * @param frequencies Where frequencies[i] is the count of the character with ASCII value i.
      */
     public HuffmanCode(int[] frequencies) {
+        System.out.println(Arrays.toString(frequencies));
         root = encode(frequencies);
-    }
-
-    /**
-     * Initialize HuffmanCode by reading a previously constructed code from a .code file.
-     * @param input Scanner object to read .code file.
-     */
-    public HuffmanCode(Scanner input) {
-        root = read(input);
     }
 
     /**
@@ -39,10 +32,11 @@ public class HuffmanCode {
      * @return The root node of the Huffman tree.
      */
     private HuffmanNode encode(int[] frequencies) {
-        // Initialize queue and add all nodes to queue.
         Queue<HuffmanNode> queue = new PriorityQueue<>();
-        for (int character = 0; character < frequencies.length; character++) {
-            queue.add(new HuffmanNode(frequencies[character], character));
+        for (int ascii = 0; ascii < frequencies.length; ascii++) {
+            if (frequencies[ascii] != 0) {
+                queue.add(new HuffmanNode(frequencies[ascii], ascii));
+            }
         }
 
         while (queue.size() > 1) {
@@ -58,25 +52,53 @@ public class HuffmanCode {
     }
 
     /**
+     * Initialize HuffmanCode by reading a previously constructed code from a .code file.
+     * @param input Scanner object to read .code file.
+     */
+    public HuffmanCode(Scanner input) {
+        root = constructHuffmanTree(input);
+    }
+
+    /**
      * Read Huffman encoding from given .code file.
      * 
      * @param input Scanner object to .code file.
      * @return The root node of the Huffman tree.
      */
-    private HuffmanNode read(Scanner input) {
+    private HuffmanNode constructHuffmanTree(Scanner input) {
         root = new HuffmanNode();
-
-        while (input.hasNextInt()) {
-            int ascii = input.nextInt();
-            int code = input.nextInt();
-            addNode(code, ascii, root);
+        while (input.hasNext()) {
+            int ascii = Integer.parseInt(input.next());
+            String code = input.next();
+            addNode(code, ascii, root, 0);
         }
-
         return root;
     }
 
-    private void addNode(int code, int ascii, HuffmanNode node) {
-        
+    /**
+     * Recursive helper method to add nodes to the Huffman tree.
+     * 
+     * @param code The Huffman encoding.
+     * @param ascii The ASCII value of the node to add.
+     * @param node The current node in traversal.
+     * @param index The current index position in the Huffman encoding.
+     */
+    private void addNode(String code, int ascii, HuffmanNode node, int index) {
+        if (index == code.length()) {
+            node.value = ascii;
+        } else {
+            if (code.charAt(index) == '0') {
+                if (node.left == null) {
+                    node.left = new HuffmanNode();
+                }
+                addNode(code, ascii, node.left, index + 1);
+            } else {
+                if (node.right == null) {
+                    node.right = new HuffmanNode();
+                }
+                addNode(code, ascii, node.right, index + 1);
+            }
+        }
     }
 
     /**
@@ -102,6 +124,22 @@ public class HuffmanCode {
             if (node.right != null) {
                 save(output, node.right, encoding + "1");
             }
+        }
+    }
+
+    public void translate(BitInputStream input, PrintStream output) {
+        HuffmanNode trav = root;
+        while (input.hasNextBit()) {
+            int bit = input.nextBit();
+            while (trav.value != -1) {
+                if (bit == 0) {
+                    trav = trav.left;
+                } else {
+                    trav = trav.right;
+                }
+            }
+            output.println(trav.value);
+            trav = root;
         }
     }
 
@@ -139,7 +177,7 @@ public class HuffmanCode {
          * @param frequency The combined frequency of two other nodes.
          */
         public HuffmanNode(HuffmanNode left, HuffmanNode right, int frequency) {
-            this(left, right, frequency, 0);
+            this(left, right, frequency, -1);
         }
 
         /**
@@ -156,7 +194,7 @@ public class HuffmanCode {
          * Initialize an empty HuffmanHode.
          */
         public HuffmanNode() {
-            this(null, null, 0, 0);
+            this(null, null, 0, -1);
         }
 
         @Override
