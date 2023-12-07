@@ -7,9 +7,8 @@
 import java.util.*;
 import java.io.*;
 
-// TODO add more commenting.
 /**
- * HuffmanCode class which is used for compressing data using Huffman Coding.
+ * HuffmanCode class which is used for compressing and decompressing data using Huffman Coding.
  */
 public class HuffmanCode {
 
@@ -22,7 +21,6 @@ public class HuffmanCode {
      * @param frequencies Where frequencies[i] is the count of the character with ASCII value i.
      */
     public HuffmanCode(int[] frequencies) {
-        System.out.println(Arrays.toString(frequencies));
         root = encode(frequencies);
     }
 
@@ -112,6 +110,13 @@ public class HuffmanCode {
         save(output, root, "");
     }
 
+    /**
+     * Recursive helper method to save a Huffman encoding into a given output stream.
+     * 
+     * @param output Given output stream.
+     * @param node The current node.
+     * @param encoding The encoding of the current character.
+     */
     private void save(PrintStream output, HuffmanNode node, String encoding) {
         if (node != null) {
             if (node.left == null && node.right == null) {
@@ -127,20 +132,28 @@ public class HuffmanCode {
         }
     }
 
+    /**
+     * Read individual bits from the input stream and decode the corresponding characters to the output.
+     * 
+     * @param input The input stream.
+     * @param output The output to print decoded bits.
+     */
     public void translate(BitInputStream input, PrintStream output) {
         HuffmanNode trav = root;
         while (input.hasNextBit()) {
-            int bit = input.nextBit();
-            while (trav.value != -1) {
+            if (trav.left == null && trav.right == null) {
+                output.print((char) trav.value);
+                trav = root;
+            } else {
+                int bit = input.nextBit();
                 if (bit == 0) {
                     trav = trav.left;
                 } else {
                     trav = trav.right;
                 }
             }
-            output.println(trav.value);
-            trav = root;
         }
+        output.print((char) trav.value);
     }
 
     /**
