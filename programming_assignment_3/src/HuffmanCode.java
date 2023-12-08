@@ -210,6 +210,10 @@ public class HuffmanCode {
             this(null, null, 0, -1);
         }
 
+        /**
+         * compareTo method required by Comparable interface that dictates that HuffmanNodes are
+         * compared to each other in order of ascending frequency.
+         */
         @Override
         public int compareTo(HuffmanNode other) {
             return frequency - other.frequency;
