@@ -142,7 +142,7 @@ public class HuffmanCode {
         HuffmanNode trav = root;
         while (input.hasNextBit()) {
             if (trav.left == null && trav.right == null) {
-                output.print((char) trav.value);
+                output.write((char) trav.value);
                 trav = root;
             } else {
                 int bit = input.nextBit();
